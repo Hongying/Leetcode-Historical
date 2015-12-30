@@ -45,6 +45,38 @@ public class ValidateBinarySearchTreeSolution {
             high = right.high;
         }
         return new HelpClass(high,low,isValid);
+
+        /*
+        //version 2: some optimization: no need to calculate high and low if it is already not a BST
+        if(root == null){
+            return new HelpClass(null,null, true);
+        }
+        HelpClass left = helper(root.left);
+        HelpClass right = helper(root.right);
+        boolean isValid = true;
+        if(left.isValid == false || right.isValid == false){
+            isValid = false;
+            return new HelpClass(-1,-1,isValid);
+        }
+        if(left.high != null && left.high >= root.val){
+            isValid = false;
+            return new HelpClass(-1,-1,isValid);
+        }
+        if(right.low != null && right.low <= root.val){
+            isValid = false;
+            return new HelpClass(-1,-1,isValid);
+        }
+        //the initilization value is useful when it's a leaf node
+        int low = root.val; 
+        if(left.low != null){
+            low = left.low;
+        }
+        int high = root.val;
+        if(right.high != null && right.high > high){
+            high = right.high;
+        }
+        return new HelpClass(high,low,isValid);
+        */
     }
      class HelpClass{
          Integer high;
