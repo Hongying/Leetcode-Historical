@@ -7,7 +7,7 @@ public class WordLadderSolution {
         Queue<String> queue = new LinkedList<String>();
         String word = beginWord;
         if(word.equals(endWord)){
-            return 0;
+            return 1;
         }
         queue.offer(beginWord);
         int level = 1;
