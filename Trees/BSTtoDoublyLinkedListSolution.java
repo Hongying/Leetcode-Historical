@@ -12,8 +12,7 @@ import java.util.Stack;
  * }
  */
 public class BSTtoDoublyLinkedListSolution {
-    public TreeNode inorderTraversal(TreeNode root) {
-        //thoughts: http://articles.leetcode.com/convert-binary-search-tree-bst-to/
+    //version 1: non-recursive
         /*  
         * in-place convert a BST to doubly linked list; consider inorder traversal because
         * of the order; for the list, pre pointer is easy because we don't revisit the previous node 
@@ -21,6 +20,7 @@ public class BSTtoDoublyLinkedListSolution {
         * p points to the current node; q points to the previous node; when the loop ends, p is null
         * and q is previous node visited, i.e., the tail
         */
+    public TreeNode inorderTraversal(TreeNode root) {
         if(root == null){ 
             return root;
         }
@@ -51,6 +51,68 @@ public class BSTtoDoublyLinkedListSolution {
         head.left = q;
         q.right = head;
         return head;
-        }    
+    }
+    //version 2 recursive, from http://cslibrary.stanford.edu/109/TreeListRecursion.html   
+    //very neat solution; note here small pointer is the left pointer, and large is the right pointer
+    /*
+    Trust that the recursive calls return correct output when fed correct input -- make the leap of faith. 
+    Look at the partial results that the recursive calls give you, and construct the full result from them. 
+    If you try to step into the recursive calls to think how they are working, you'll go crazy.
+    */
+    public static void join(Node a, Node b) {
+        a.large = b;
+        b.small = a;
+    }
+
     
+    /*
+     helper function -- given two circular doubly linked
+     lists, append them and return the new list.
+    */
+    public static Node append(Node a, Node b) {
+        // if either is null, return the other
+        if (a==null) return(b);
+        if (b==null) return(a);
+        
+        // find the last node in each using the .previous pointer
+        Node aLast = a.small;
+        Node bLast = b.small;
+        
+        // join the two together to make it connected and circular
+        join(aLast, b);
+        join(bLast, a);
+        
+        return(a);
+    }
+
+    
+    /*
+     --Recursion--
+     Given an ordered binary tree, recursively change it into
+     a circular doubly linked list which is returned.
+    */
+     /*return the linked list head with the linked list 
+     which contains all the node from the tree rooted at "root"
+     */
+    public static Node treeToList(Node root) {
+        // base case: empty tree -> empty list
+        if (root==null) return(null);
+        
+        // Recursively do the subtrees (leap of faith!)
+        Node aList = treeToList(root.small);
+        Node bList = treeToList(root.large);
+        
+        // Make the single root node into a list length-1
+        // in preparation for the appending
+        root.small = root;
+        root.large = root;
+        
+        // At this point we have three lists, and it's
+        // just a matter of appending them together
+        // in the right order (aList, root, bList)
+        aList = append(aList, root);
+        aList = append(aList, bList);
+        
+        return(aList);
+    } 
 }
