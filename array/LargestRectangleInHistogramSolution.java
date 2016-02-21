@@ -25,10 +25,14 @@ public class LargestRectangleInHistogramSolution {
         Stack<Integer> stack = new Stack<Integer>();
         stack.push(-1);
         for (int i = 0; i < heights.length; i++) {
+            /* after you pop an elt. (current elt.), the 1st elt. < it on its left is the current top;
+            the 1st. elt. on the right < it is heights[i] because only when heights[i] < it, we popped the current elt.
+            */
             while(stack.peek() != -1 && heights[stack.peek()] >= heights[i]){
                 int top = stack.pop();
                 area = Math.max(area, heights[top] * (i - 1 - (stack.peek() + 1) + 1));
             }
+            //don't forget to push
             stack.push(i);
         }
         while(stack.size() > 1){
