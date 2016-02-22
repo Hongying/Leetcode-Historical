@@ -35,6 +35,9 @@ public class LargestRectangleInHistogramSolution {
             //don't forget to push
             stack.push(i);
         }
+        /*pop the rest elt.; since they are still in the stack, the last elt. of heights is bigger than the 
+        current elt. in the stack
+        */
         while(stack.size() > 1){
             int x = stack.pop();
             area = Math.max(area, (heights.length - 1 - (stack.peek() + 1) + 1) * heights[x]);
