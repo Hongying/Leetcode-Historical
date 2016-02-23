@@ -19,7 +19,7 @@ public class JumpGameIISolution {
         int start = 0;
         int end = 0;
         int furthest = 0;
-        //every time jump from (anywhere between start and end) to (start+1,furthest), where next jump begins. 
+        //every time jump from (anywhere between start and end) to (end+1,furthest), where next jump begins. 
         int jumps = 0;
         //note the condition here: not (end < nums.length), because when end = nums.length, no need to go into the loop because the last element is reachable
         while(end < nums.length - 1){
