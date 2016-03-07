@@ -11,40 +11,40 @@
 public class ValidateBinarySearchTreeSolution {
     public boolean isValidBST(TreeNode root) {
         HelpClass result = helper(root);
-        return result.isValid;
+        return root == null ? true : result.isValid;
     }
     public HelpClass helper(TreeNode root){
         if(root == null){
-            //to avoid the case that some elements has value of Integer.MIN_VALUE or Integer.MAX_VALUE
-            return new HelpClass(null,null, true);
+            return null;
+        }
+        if(root.left == null && root.right == null){
+            return new HelpClass(root.val, root.val, true);
         }
         HelpClass left = helper(root.left);
         HelpClass right = helper(root.right);
-        boolean isValid = true;
-        if(left.high != null && left.high >= root.val){
-            isValid = false;
+
+        if(left != null){
+            if(left.isValid == false || left.high >= root.val){
+                return new HelpClass(-1,-1,false);
+            }
         }
-        if(right.low != null && right.low <= root.val){
-            isValid = false;
+        if(right != null){
+            if(right.isValid == false || right.low <= root.val){
+                return new HelpClass(-1,-1,false);
+            }
         }
-        if(left.isValid == false || right.isValid == false){
-            isValid = false;
-        }
+        
+        //the initilization value is useful when it's a leaf node
         int low = root.val; 
-        if(left.low != null && left.low < low){
+        if(left != null){
             low = left.low;
         }
-        if(right.low != null && right.low < low){
-            low = right.low;
-        }
         int high = root.val;
-        if(left.high != null && left.high > high){
-            high = left.high;
-        }
-        if(right.high != null && right.high > high){
+        if(right != null){
             high = right.high;
         }
-        return new HelpClass(high,low,isValid);
+        return new HelpClass(high,low,true);
+    
 
         /*
         //version 2: some optimization: no need to calculate high and low if it is already not a BST

@@ -52,8 +52,7 @@ public class BinaryTreeLevelOrderTraversalSolution {
         }
         //in order traversal; preorder and postorder should be fine too
         dfs(result, root.left, level + 1);
-        List<Integer> x = result.get(level);
-        x.add(root.val);
+        result.get(level).add(root.val);
         dfs(result, root.right, level + 1);
         
     }
