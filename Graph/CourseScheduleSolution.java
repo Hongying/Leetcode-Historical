@@ -31,12 +31,13 @@ public class CourseScheduleSolution {
               if(node == x[0]){
                   degrees.put(x[1], degrees.get(x[1]) - 1);
                   if(degrees.get(x[1]) == 0){
-                      degrees.remove(x);
+                      degrees.remove(x[1]);
                       queue.offer(x[1]);
                   }
               }
           }
       }
+      //or return degrees.isEmpty();, no need of result variable
       return (result.size() == numCourses);
     }
 }
