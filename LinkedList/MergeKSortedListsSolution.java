@@ -37,27 +37,43 @@ public class MergeKSortedListsSolution{
         int l = 0;
         int r = lists.length - 1; 
         while(r != 0){
-            int mid = l + (r - l) / 2;
             while(l < r){
                 lists[l] = merge2Lists(lists[l],lists[r]);
                 l++;
                 r--;
             }
-            l = 0;
+            l = 0; // r is the last elt. that should be merged in the next loop, thus no need to update
         }
         return lists[0];
+
+        /* //version 1 variant 2: e.g. 0, 1, 2, 3. merge 0 and 2, 1 and 3, then 0 and 1.
+        int n = lists.length;
+        
+        while(n > 1){
+        for(int i = 0; i <= (n - 1) / 2; i++){
+            if(i+ (n - 1) /2 + 1 < n){
+                lists[i] = merge2lists(lists[i], lists[i+ (n - 1) /2 + 1]);
+            }
+        }
+        n = (n - 1) / 2 + 1;
+       }
+        //VERSION 1 variant 3:    
+        while(n > 1){
+            for(int i = 0; i < (n + 1) / 2; i++){
+                if((i + (n + 1) / 2) < n){
+                    lists[i] = merge2lists(lists[i], lists[i+(n+1)/2]);
+                }
+            }
+            n = (n + 1) / 2;
+        }
+        return lists[0];
+        */
     
         /* version 2 using heap
         PriorityQueue<ListNode> q = new PriorityQueue<ListNode>(lists.length,
             new Comparator<ListNode>(){
                 public int compare(ListNode n1, ListNode n2){
-                    if(n1.val < n2.val){
-                        return -1;
-                    }else if(n1.val == n2.val){
-                        return 0;
-                    }else{
-                        return 1;
-                    }
+                    return n1.val - n2.val; 
                 }
             });
         for(ListNode list : lists){
