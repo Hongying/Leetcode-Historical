@@ -10,7 +10,37 @@
  //import Stack and ArrayList
 public class BinaryTreePostorderTraversalSolution {
     public List<Integer> postorderTraversal(TreeNode root) {
-        //non-recursive
+        //m1: non-recursive, using 1 stack
+        List<Integer> list = new LinkedList<Integer>();
+        if(root == null){
+            return list;
+        }
+        //p is the current node, q is its previous node
+        TreeNode p = null, q = null;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            p = stack.peek();
+            boolean childVisited = false;
+            if(q != null && (p.left == q || p.right == q)){
+                childVisited = true;
+            }
+            if(childVisited == true || p.left == null && p.right == null){
+                list.add(p.val);
+                stack.pop();
+                q = p;
+            }else{
+                if(p.right != null){
+                    stack.push(p.right);
+                }
+                if(p.left != null){
+                    stack.push(p.left);
+                }
+            }
+        }
+        return list;
+
+        //m2: non-recursive
         List<Integer> postorder = new ArrayList<Integer>();
         if(root == null){
             return postorder;
